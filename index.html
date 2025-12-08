@@ -99,7 +99,7 @@
                 <div class="mb-6"><label class="block text-sm font-medium mb-2 text-gimnastik-light">DNI</label><input type="number" id="access-dni" placeholder="Ej: 12345678" class="input-dark w-full rounded-xl px-4 py-4 text-xl text-center"></div>
                 <button onclick="handleAccess()" class="btn-primary w-full py-4 rounded-xl text-lg shadow-lg">Registrar Asistencia</button>
             </div>
-            <div id="access-loader" class="hidden mt-8 text-center fade-in"><div class="flex flex-col items-center justify-center gap-4"><div class="loader-box"></div><p class="text-gimnastik-primary font-bold animate-pulse tracking-widest text-sm">PROCESANDO...</p></div></div>
+            <div id="access-loader" class="hidden mt-8 text-center fade-in"><div class="loader-box mx-auto mb-4"></div><p class="animate-pulse text-gimnastik-primary font-bold">PROCESANDO...</p></div>
             <div id="access-result" class="hidden mt-6 glass-panel rounded-2xl p-6 text-center border-l-4 border-gimnastik-primary">
                 <div id="access-icon" class="mx-auto w-16 h-16 rounded-full bg-green-500/20 flex items-center justify-center mb-4 text-green-500"></div>
                 <h3 id="access-name" class="text-2xl font-bold text-white mb-1"></h3>
@@ -117,7 +117,7 @@
             <div class="grid md:grid-cols-2 gap-8">
                 <!-- Columna Izquierda: Formularios -->
                 <div class="space-y-8">
-                    <!-- 1. Registrar Alumno (ARRIBA) -->
+                    <!-- 1. Registrar Alumno (AHORA PRIMERO) -->
                     <div class="glass-panel rounded-2xl p-6 border border-gimnastik-primary/30 relative overflow-hidden">
                         <div class="absolute top-0 right-0 w-20 h-20 bg-gimnastik-primary blur-3xl opacity-20"></div>
                         <h3 class="flex items-center gap-2 text-lg font-bold mb-6 text-white"><i data-lucide="user-plus" class="w-5 h-5 text-gimnastik-primary"></i> Registrar Alumno</h3>
@@ -136,7 +136,7 @@
                         </form>
                     </div>
 
-                    <!-- 2. Nueva Disciplina (ABAJO) -->
+                    <!-- 2. Nueva Disciplina (AHORA SEGUNDO) -->
                     <div class="glass-panel rounded-2xl p-6">
                         <h3 class="flex items-center gap-2 text-lg font-bold mb-4 text-gimnastik-light"><i data-lucide="dumbbell" class="w-5 h-5 text-gimnastik-primary"></i> Nueva Disciplina</h3>
                         <div class="flex gap-2">

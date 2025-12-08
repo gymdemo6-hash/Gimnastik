@@ -3,7 +3,7 @@
 lucide.createIcons();
 
 // --- CONFIGURACIÓN MAESTRA ---
-// Tu UID Real
+// Tu UID Real (Confirmado)
 const ADMIN_UID = "1E95I78W06ecYvKHMu038qmRLr53"; 
 
 let disciplines = [], students = [], isAdminAuthenticated = false, gymChartInstance = null;

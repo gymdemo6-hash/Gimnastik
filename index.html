@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Gimnastik - Control de Acceso</title>
+    
+    <!-- PWA Theme Color -->
+    <meta name="theme-color" content="#0f0508">
+    
+    <!-- Librerías Externas -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <!-- Fuentes -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Configuración Tailwind -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        gimnastik: { bg: '#120509', card: '#1F0A12', primary: '#FF0055', light: '#FFE5EC', gray: '#8A4A5E' }
+                    },
+                    fontFamily: { sans: ['Inter', 'sans-serif'] }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="antialiased selection:bg-gimnastik-primary selection:text-white pb-20">
+
+    <!-- Navbar -->
+    <nav class="w-full glass-panel sticky top-0 z-40 px-6 py-4 mb-8 flex justify-between items-center">
+        <div class="flex items-center gap-2">
+            <div class="w-8 h-8 bg-gimnastik-primary rounded-lg flex items-center justify-center font-bold text-white transition-colors">G</div>
+            <h1 class="text-xl font-bold tracking-tight">gimnastik</h1>
+        </div>
+        <div class="flex gap-4 items-center relative">
+            <button onclick="showView('access')" id="btn-nav-access" class="text-sm font-medium text-gimnastik-primary border-b-2 border-gimnastik-primary pb-1">Ingreso</button>
+            
+            <!-- Botón Temas -->
+            <button onclick="toggleThemeMenu()" id="btn-theme-toggle" class="hidden text-gray-400 hover:text-white transition p-2 rounded-full hover:bg-white/10 relative"><i data-lucide="palette" class="w-5 h-5"></i></button>
+
+            <!-- Menú Temas -->
+            <div id="theme-menu" class="hidden absolute top-12 right-0 bg-[#1F0A12] border border-white/10 rounded-xl p-4 shadow-2xl z-50 w-48 fade-in">
+                <p class="text-xs text-gray-400 mb-3 uppercase font-bold tracking-wider text-center">Fondo</p>
+                <div class="grid grid-cols-4 gap-2">
+                    <button onclick="setTheme('74, 4, 29')" class="w-8 h-8 rounded-full bg-[#FF0055] border-2 border-white/30" title="Original"></button>
+                    <button onclick="setTheme('255, 255, 255')" class="w-8 h-8 rounded-full bg-white"></button>
+                    <button onclick="setTheme('41, 121, 255')" class="w-8 h-8 rounded-full bg-[#2979FF]"></button>
+                    <button onclick="setTheme('255, 214, 0')" class="w-8 h-8 rounded-full bg-[#FFD600]"></button>
+                </div>
+            </div>
+
+            <button onclick="requestAdminAccess()" id="btn-nav-admin" class="text-gray-400 hover:text-white transition p-2 rounded-full hover:bg-white/10"><i data-lucide="key-round" class="w-5 h-5"></i></button>
+            <button onclick="logoutAdmin()" id="btn-logout" class="hidden text-red-500 hover:text-white transition p-2 rounded-full hover:bg-red-500/20"><i data-lucide="log-out" class="w-5 h-5"></i></button>
+        </div>
+    </nav>
+
+    <!-- Modal Login -->
+    <div id="login-modal" class="fixed inset-0 bg-black/90 backdrop-blur-md z-50 hidden flex items-center justify-center p-4">
+        <div class="glass-panel w-full max-w-sm rounded-2xl p-8 relative border border-gimnastik-primary/30 shadow-2xl shadow-pink-900/20">
+            <button onclick="closeLoginModal()" class="absolute top-4 right-4 text-gray-500 hover:text-white transition"><i data-lucide="x" class="w-6 h-6"></i></button>
+            <div class="text-center mb-8">
+                <div class="w-16 h-16 bg-gimnastik-primary/20 rounded-full flex items-center justify-center mx-auto mb-4"><i data-lucide="lock" class="w-8 h-8 text-gimnastik-primary"></i></div>
+                <h3 class="text-2xl font-bold text-white">Acceso Admin</h3>
+                <p class="text-xs text-gray-400">Usuario: ADMIN | Clave: ADMIN2025</p>
+            </div>
+            <form onsubmit="event.preventDefault(); performLogin();" class="space-y-4">
+                <input type="text" id="login-user" placeholder="Usuario" class="input-dark w-full rounded-xl px-4 py-3 text-center">
+                <input type="password" id="login-pass" placeholder="Contraseña" class="input-dark w-full rounded-xl px-4 py-3 text-center">
+                <div id="login-error" class="hidden text-red-500 text-xs text-center font-bold">Credenciales incorrectas</div>
+                <button type="submit" class="btn-primary w-full py-3 rounded-xl font-bold shadow-lg shadow-pink-900/20">Ingresar</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal Detalles -->
+    <div id="modal-overlay" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="glass-panel w-full max-w-2xl rounded-2xl flex flex-col max-h-[90vh] relative shadow-2xl">
+            <div class="p-6 border-b border-white/10 flex justify-between items-center bg-gimnastik-card rounded-t-2xl">
+                <div><h3 id="modal-title" class="text-2xl font-bold text-white">Disciplina</h3><p class="text-sm text-gimnastik-gray">Gestión</p></div>
+                <button onclick="closeModal()" class="group p-2 bg-white/5 hover:bg-white/20 rounded-full transition"><i data-lucide="x" class="w-6 h-6 text-white"></i></button>
+            </div>
+            <div id="modal-body" class="p-6 overflow-y-auto space-y-4"></div>
+        </div>
+    </div>
+
+    <!-- Contenido Principal -->
+    <main class="max-w-md mx-auto px-4 md:max-w-5xl">
+        <!-- VISTA 1: INGRESO -->
+        <section id="view-access" class="fade-in block max-w-md mx-auto">
+            <div class="text-center mb-10"><h2 class="text-3xl font-bold mb-2">Bienvenido</h2><p class="text-gimnastik-gray">Ingresa tu DNI.</p></div>
+            <div class="glass-panel rounded-3xl p-8 shadow-2xl breathing-effect relative overflow-hidden">
+                <div class="mb-6"><label class="block text-sm font-medium mb-2 text-gimnastik-light">DNI</label><input type="number" id="access-dni" placeholder="Ej: 12345678" class="input-dark w-full rounded-xl px-4 py-4 text-xl text-center"></div>
+                <button onclick="handleAccess()" class="btn-primary w-full py-4 rounded-xl text-lg shadow-lg">Registrar Asistencia</button>
+            </div>
+            <div id="access-loader" class="hidden mt-8 text-center fade-in"><div class="flex flex-col items-center justify-center gap-4"><div class="loader-box"></div><p class="text-gimnastik-primary font-bold animate-pulse tracking-widest text-sm">PROCESANDO...</p></div></div>
+            <div id="access-result" class="hidden mt-6 glass-panel rounded-2xl p-6 text-center border-l-4 border-gimnastik-primary">
+                <div id="access-icon" class="mx-auto w-16 h-16 rounded-full bg-green-500/20 flex items-center justify-center mb-4 text-green-500"></div>
+                <h3 id="access-name" class="text-2xl font-bold text-white mb-1"></h3>
+                <p id="access-discipline" class="text-gimnastik-primary font-medium mb-4 uppercase text-sm tracking-wider"></p>
+                <div class="grid grid-cols-2 gap-4 mt-4">
+                    <div class="bg-black/30 p-3 rounded-xl"><p class="text-xs text-gray-400">Asistencias</p><p id="access-used" class="text-2xl font-bold"></p></div>
+                    <div class="bg-black/30 p-3 rounded-xl"><p class="text-xs text-gray-400" id="label-remaining">Restantes</p><p id="access-remaining" class="text-2xl font-bold text-gimnastik-primary"></p></div>
+                </div>
+                <div id="expiry-warning" class="hidden mt-3 text-xs text-red-400 bg-red-900/20 p-2 rounded">Membresía vencida.</div>
+            </div>
+        </section>
+
+        <!-- VISTA 2: ADMIN -->
+        <section id="view-admin" class="fade-in hidden">
+            <div class="grid md:grid-cols-2 gap-8">
+                <!-- Columna Izquierda: Formularios -->
+                <div class="space-y-8">
+                    <!-- 1. Registrar Alumno (ARRIBA) -->
+                    <div class="glass-panel rounded-2xl p-6 border border-gimnastik-primary/30 relative overflow-hidden">
+                        <div class="absolute top-0 right-0 w-20 h-20 bg-gimnastik-primary blur-3xl opacity-20"></div>
+                        <h3 class="flex items-center gap-2 text-lg font-bold mb-6 text-white"><i data-lucide="user-plus" class="w-5 h-5 text-gimnastik-primary"></i> Registrar Alumno</h3>
+                        <form id="form-register" onsubmit="event.preventDefault(); registerStudent();" class="space-y-4">
+                            <input type="text" id="reg-name" placeholder="Nombre Completo" required class="input-dark w-full rounded-lg px-4 py-3">
+                            <input type="number" id="reg-dni" placeholder="DNI" required class="input-dark w-full rounded-lg px-4 py-3">
+                            <div class="grid grid-cols-2 gap-4">
+                                <div><select id="reg-discipline" class="input-dark w-full rounded-lg px-4 py-3"></select><div id="disciplines-tags" class="flex flex-wrap gap-2 mt-2"></div></div>
+                                <input type="number" id="reg-visits" value="8" class="input-dark w-full rounded-lg px-4 py-3">
+                            </div>
+                            <div class="space-y-2 py-2">
+                                <div class="flex items-center gap-3"><input type="checkbox" id="reg-unlimited" onchange="toggleVisitsInput()" class="w-5 h-5 accent-gimnastik-primary"><label>Pase Libre</label></div>
+                                <div class="flex items-center gap-3"><input type="checkbox" id="reg-month-pack" class="w-5 h-5 accent-gimnastik-primary"><label>Mes (Vence en 30 días)</label></div>
+                            </div>
+                            <button type="submit" class="btn-primary w-full py-3 rounded-xl font-bold shadow-lg">Guardar Alumno</button>
+                        </form>
+                    </div>
+
+                    <!-- 2. Nueva Disciplina (ABAJO) -->
+                    <div class="glass-panel rounded-2xl p-6">
+                        <h3 class="flex items-center gap-2 text-lg font-bold mb-4 text-gimnastik-light"><i data-lucide="dumbbell" class="w-5 h-5 text-gimnastik-primary"></i> Nueva Disciplina</h3>
+                        <div class="flex gap-2">
+                            <input type="text" id="new-discipline-name" placeholder="Ej: Yoga" class="input-dark flex-1 rounded-lg px-3 py-2">
+                            <button onclick="addDiscipline()" class="bg-gray-700 hover:bg-gray-600 text-white px-4 py-2 rounded-lg"><i data-lucide="plus"></i></button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Columna Derecha: Estadísticas -->
+                <div class="space-y-6">
+                    <div>
+                        <h3 class="text-lg font-bold mb-4 flex justify-between"><span>Estado</span><span class="text-xs bg-gimnastik-primary px-2 py-1 rounded" id="total-students-badge">0</span></h3>
+                        <div id="stats-container" class="grid grid-cols-1 gap-4"></div>
+                    </div>
+                    <div class="glass-panel p-6 rounded-2xl">
+                        <h4 class="text-sm font-bold mb-4 text-gray-400">Distribución</h4>
+                        <div class="relative h-64 w-full"><canvas id="gymChart"></canvas></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- FIREBASE INIT -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getAuth, signInAnonymously, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+        import { getFirestore, collection, addDoc, deleteDoc, updateDoc, doc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+        // TUS CREDENCIALES REALES
+        const firebaseConfig = {
+            apiKey: "AIzaSyAPqObmz4mZmQzMoJ72Ydo93bRhLS1OOu0",
+            authDomain: "gymnastik-df921.firebaseapp.com",
+            projectId: "gymnastik-df921",
+            storageBucket: "gymnastik-df921.firebasestorage.app",
+            messagingSenderId: "771378237144",
+            appId: "1:771378237144:web:62427bc40d1769a34b11ad",
+            measurementId: "G-E6YTC57GF7"
+        };
+
+        try {
+            const app = initializeApp(firebaseConfig);
+            const auth = getAuth(app);
+            const db = getFirestore(app);
+
+            window.db = db;
+            window.collection = collection;
+            window.addDoc = addDoc;
+            window.deleteDoc = deleteDoc;
+            window.updateDoc = updateDoc;
+            window.doc = doc;
+            window.onSnapshot = onSnapshot;
+            window.auth = auth;
+            window.signInAnonymously = signInAnonymously;
+            window.signInWithEmailAndPassword = signInWithEmailAndPassword;
+            window.signOut = signOut;
+            window.onAuthStateChanged = onAuthStateChanged;
+            
+            console.log("🔥 Firebase Inicializado");
+        } catch (error) {
+            console.error("Error Firebase:", error);
+        }
+    </script>
+    <script src="index.js"></script>
+</body>
+</html>

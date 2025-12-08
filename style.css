@@ -1,0 +1,50 @@
+:root {
+    --primary-color: #FF0055;
+    --bg-theme-rgb: 74, 4, 29;
+}
+body {
+    background-color: #0f0508;
+    background-image: radial-gradient(circle at 50% 0%, rgba(var(--bg-theme-rgb), 0.8) 0%, #0f0508 60%);
+    color: white;
+    min-height: 100vh;
+    font-family: 'Inter', sans-serif;
+    transition: background-image 0.5s ease;
+}
+.glass-panel {
+    background: rgba(31, 10, 18, 0.85);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 0, 85, 0.15);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+}
+.breathing-effect { animation: breathe 4s infinite ease-in-out; }
+@keyframes breathe {
+    0%, 100% { box-shadow: 0 4px 30px rgba(0,0,0,0.5); border-color: rgba(255,0,85,0.15); }
+    50% { box-shadow: 0 0 25px rgba(255,0,85,0.4); border-color: rgba(255,0,85,0.6); }
+}
+.input-dark {
+    background: rgba(0, 0, 0, 0.4);
+    border: 1px solid #4a1526;
+    color: white;
+    transition: all 0.2s ease;
+}
+.input-dark:focus {
+    border-color: var(--primary-color);
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(255, 0, 85, 0.2);
+}
+/* Ocultar flechas numéricas */
+input[type=number]::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+.btn-primary {
+    background: var(--primary-color);
+    color: white;
+    transition: transform 0.1s;
+}
+.btn-primary:active { transform: scale(0.98); }
+.fade-in { animation: fadeIn 0.3s ease-in-out; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+.slide-up-out { animation: slideUp 0.8s forwards; }
+@keyframes slideUp { to { opacity: 0; transform: translateY(-100px); } }
+.loader-box { width: 40px; height: 40px; background: var(--primary-color); animation: spin 1.2s infinite; }
+@keyframes spin { 0% { transform: rotateX(0deg); } 100% { transform: rotateX(-180deg); } }
+.animate-shake { animation: shake 0.5s; }
+@keyframes shake { 0%,100% {transform:translateX(0);} 25% {transform:translateX(-5px);} 75% {transform:translateX(5px);} }

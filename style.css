@@ -11,7 +11,7 @@ body {
     transition: background-image 0.5s ease;
 }
 .glass-panel {
-    background: rgba(31, 10, 18, 0.85);
+    background: rgba(31, 10, 18, 0.85);a
     backdrop-filter: blur(12px);
     border: 1px solid rgba(255, 0, 85, 0.15);
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
@@ -32,7 +32,6 @@ body {
     outline: none;
     box-shadow: 0 0 0 2px rgba(255, 0, 85, 0.2);
 }
-/* Ocultar flechas numéricas */
 input[type=number]::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
 .btn-primary {
     background: var(--primary-color);

@@ -117,7 +117,7 @@
             <div class="grid md:grid-cols-2 gap-8">
                 <!-- Columna Izquierda: Formularios -->
                 <div class="space-y-8">
-                    <!-- 1. Registrar Alumno (AHORA PRIMERO) -->
+                    <!-- 1. Registrar Alumno (ARRIBA) -->
                     <div class="glass-panel rounded-2xl p-6 border border-gimnastik-primary/30 relative overflow-hidden">
                         <div class="absolute top-0 right-0 w-20 h-20 bg-gimnastik-primary blur-3xl opacity-20"></div>
                         <h3 class="flex items-center gap-2 text-lg font-bold mb-6 text-white"><i data-lucide="user-plus" class="w-5 h-5 text-gimnastik-primary"></i> Registrar Alumno</h3>
@@ -136,7 +136,7 @@
                         </form>
                     </div>
 
-                    <!-- 2. Nueva Disciplina (AHORA SEGUNDO) -->
+                    <!-- 2. Nueva Disciplina (ABAJO) -->
                     <div class="glass-panel rounded-2xl p-6">
                         <h3 class="flex items-center gap-2 text-lg font-bold mb-4 text-gimnastik-light"><i data-lucide="dumbbell" class="w-5 h-5 text-gimnastik-primary"></i> Nueva Disciplina</h3>
                         <div class="flex gap-2">
@@ -167,7 +167,7 @@
         import { getAuth, signInAnonymously, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
         import { getFirestore, collection, addDoc, deleteDoc, updateDoc, doc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-        // TUS CREDENCIALES REALES
+        // CONFIGURACIÓN DE TU FIREBASE
         const firebaseConfig = {
             apiKey: "AIzaSyAPqObmz4mZmQzMoJ72Ydo93bRhLS1OOu0",
             authDomain: "gymnastik-df921.firebaseapp.com",

@@ -2,9 +2,9 @@
 
 lucide.createIcons();
 
-// --- CONFIGURACIÓN MAESTRA ---
-// Tu UID Real (Confirmado)
-const ADMIN_UID = "OjfYLNPfIHQJZsGDsOd00fq24HK2"; 
+// --- CONFIGURACIÓN ---
+// ⚠️ PEGA AQUÍ EL UID DE TU ADMIN DEL NUEVO PROYECTO
+const ADMIN_UID = "PEGAR_UID_AQUI"; 
 
 let disciplines = [], students = [], isAdminAuthenticated = false, gymChartInstance = null;
 let autoCloseTimer = null;
@@ -31,7 +31,7 @@ function waitForFirebase() {
         window.onAuthStateChanged(window.auth, (user) => {
             if (user) {
                 console.log("Usuario:", user.uid);
-                // Si el UID coincide, es admin
+                // Validar Admin por UID
                 if (user.uid === ADMIN_UID) {
                     isAdminAuthenticated = true;
                     navBtns.logout.classList.remove('hidden');
@@ -51,7 +51,7 @@ function waitForFirebase() {
     }
 }
 
-// LOGIN: ADMIN -> admin@... pero deja ADMIN2025 tal cual
+// LOGIN: Convierte ADMIN -> admin@...
 function performLogin() {
     const u = document.getElementById('login-user').value.trim();
     const p = document.getElementById('login-pass').value.trim();
@@ -151,7 +151,6 @@ function updateDisciplineSelect() {
         o.value = d.name; o.textContent = d.name; o.className = "text-black";
         s.appendChild(o);
     });
-    if (disciplines.some(d => d.name === currentValue)) select.value = currentValue;
 }
 function toggleVisitsInput() {
     const dis = document.getElementById('reg-unlimited').checked;
@@ -170,7 +169,6 @@ function renderStats() {
         c.appendChild(div);
     });
     lucide.createIcons();
-    renderChart();
 }
 function renderChart() {
     const ctx = document.getElementById('gymChart'); if(!ctx) return;

@@ -119,7 +119,7 @@
             <div class="grid md:grid-cols-2 gap-8">
                 <!-- Columna Izquierda: Formularios -->
                 <div class="space-y-8">
-                    <!-- 1. Registrar Alumno (PRIMERO) -->
+                    <!-- 1. Registrar Alumno (ARRIBA) -->
                     <div class="glass-panel rounded-2xl p-6 border border-gimnastik-primary/30 relative overflow-hidden">
                         <div class="absolute top-0 right-0 w-20 h-20 bg-gimnastik-primary blur-3xl opacity-20"></div>
                         <h3 class="flex items-center gap-2 text-lg font-bold mb-6 text-white"><i data-lucide="user-plus" class="w-5 h-5 text-gimnastik-primary"></i> Registrar Alumno</h3>
@@ -138,7 +138,7 @@
                         </form>
                     </div>
 
-                    <!-- 2. Nueva Disciplina (SEGUNDO) -->
+                    <!-- 2. Nueva Disciplina (ABAJO) -->
                     <div class="glass-panel rounded-2xl p-6">
                         <h3 class="flex items-center gap-2 text-lg font-bold mb-4 text-gimnastik-light"><i data-lucide="dumbbell" class="w-5 h-5 text-gimnastik-primary"></i> Nueva Disciplina</h3>
                         <div class="flex gap-2">
@@ -163,21 +163,20 @@
         </section>
     </main>
 
-    <!-- FIREBASE INIT CON CREDENCIALES NUEVAS -->
+    <!-- FIREBASE INIT -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
         import { getAuth, signInAnonymously, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
         import { getFirestore, collection, addDoc, deleteDoc, updateDoc, doc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-        // TUS CREDENCIALES REALES de gimnastik-bfaaa
+        // --- PEGA AQUI TU CONFIGURACION DE FIREBASE DEL NUEVO PROYECTO ---
         const firebaseConfig = {
-            apiKey: "AIzaSyCnG5Y1xOPOlKvi80mPHDswZEQb00dwUOI",
-            authDomain: "gimnastik-bfaaa.firebaseapp.com",
-            projectId: "gimnastik-bfaaa",
-            storageBucket: "gimnastik-bfaaa.firebasestorage.app",
-            messagingSenderId: "90266864988",
-            appId: "1:90266864988:web:c2ae07a37f0ab6922cc599",
-            measurementId: "G-QVEWJGZMNK"
+            apiKey: "TU_API_KEY_NUEVA",
+            authDomain: "TU_PROYECTO.firebaseapp.com",
+            projectId: "TU_PROYECTO",
+            storageBucket: "TU_PROYECTO.appspot.com",
+            messagingSenderId: "TU_SENDER",
+            appId: "TU_APP_ID"
         };
 
         try {
@@ -185,7 +184,6 @@
             const auth = getAuth(app);
             const db = getFirestore(app);
 
-            // Exponer variables globalmente
             window.db = db;
             window.collection = collection;
             window.addDoc = addDoc;
@@ -199,7 +197,7 @@
             window.signOut = signOut;
             window.onAuthStateChanged = onAuthStateChanged;
             
-            console.log("🔥 Firebase bfaaa Conectado");
+            console.log("🔥 Firebase Inicializado");
         } catch (error) {
             console.error("Error Firebase:", error);
         }
